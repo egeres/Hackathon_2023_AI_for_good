@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "ai-biases-analyzer"
+version = "0.1.0"
+description = "A biases analyzer for generative AI"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "ai_biases_analyzer"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
