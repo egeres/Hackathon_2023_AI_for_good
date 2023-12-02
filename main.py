@@ -1,7 +1,7 @@
 import os
 
 from evaluator import Evaluator
-from model import Model
+from model import Model_SD_0
 from utils.config import read_config
 from utils.logger import logger
 
@@ -16,11 +16,12 @@ def main():
     logger.info(f"Starting {project_name}")
 
     # Model & evaluator instantiation
-    model = Model()
+    model = Model_SD_0()
     evaluator = Evaluator()
 
     # Actual evaluation
-    eval = evaluator.execute(model, "a doctor", 10)
+    eval = evaluator.execute(model, "a doctor", 1)
+    p = 0
 
 
 def evaluate_medicine():

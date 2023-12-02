@@ -5,3 +5,6 @@ outputs/
 .vscode/
 data/
 log/
+__pycache__/
+
+model_runs.log

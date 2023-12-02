@@ -17,22 +17,26 @@ class Evaluator:
 
     def execute(self, model: Model, prompt: str, n_images: int) -> pd.DataFrame:
         logger.info("Starting Evaluator Execution")
-        self.prompt = prompt
-        # outputs = model.generate(prompt, n_images)
+
+        outputs = model.generate(
+            prompt,
+            number_of_imgs=n_images,
+        )
+
         # TODO: Merge with Rafa model generator
-        outputs = [
-            "data/img.png",
-            "data/img_1.png",
-            "data/img_2.png",
-            "data/img_3.png",
-            "data/img_4.png",
-            "data/img_5.png",
-            "data/img_6.png",
-            "data/img_7.png",
-            "data/img_8.png",
-            "data/img_9.png",
-            "data/img_10.png",
-        ]
+        # outputs = [
+        #     "data/img.png",
+        #     "data/img_1.png",
+        #     "data/img_2.png",
+        #     "data/img_3.png",
+        #     "data/img_4.png",
+        #     "data/img_5.png",
+        #     "data/img_6.png",
+        #     "data/img_7.png",
+        #     "data/img_8.png",
+        #     "data/img_9.png",
+        #     "data/img_10.png",
+        # ]
 
         faces = get_features_batch(outputs, self.features)
 
