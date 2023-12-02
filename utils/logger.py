@@ -57,4 +57,4 @@ if '{' in log_file_path and '}' in log_file_path:
 logger = logging.getLogger()
 logger.addHandler(console_handler(format=console_format))
 if log_file_path is not None and log_file_path != '':
-    logger.addHandler(file_handler(log_file_path))
+    logger.addHandler(file_handler(log_file_path, format=file_format))
