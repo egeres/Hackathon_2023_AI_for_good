@@ -1,2 +1,7 @@
 
 outputs/
+
+.idea/
+.vscode/
+data/
+log/
