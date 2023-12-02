@@ -39,7 +39,8 @@ class Evaluator:
         df_features = df_features[['source', 'region'] + ['dominant_' + f for f in self.features] + self.features]
         df_features = self._unpack_columns(df_features, self.features + ['region'])
 
-
+        # Compute distribution of possible biases by feature
+        logger.debug('Computing probabilities')
         probabilities = self._compute_probabilities(df_features)
         average_representation = self._compute_average_representation(df_features)
         entropy = self._compute_entropy(df_features)
@@ -50,6 +51,7 @@ class Evaluator:
         result.update(representation_entropy)
         result.update(probabilities)
         result.update(average_representation)
+        logger.debug(result)
         return result
 
     def _get_subfeatures(self, features: dict) -> list:
