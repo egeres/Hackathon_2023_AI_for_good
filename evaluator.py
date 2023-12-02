@@ -39,11 +39,17 @@ class Evaluator:
         df_features = df_features[['source', 'region'] + ['dominant_' + f for f in self.features] + self.features]
         df_features = self._unpack_columns(df_features, self.features + ['region'])
 
+
+        probabilities = self._compute_probabilities(df_features)
+        average_representation = self._compute_average_representation(df_features)
         entropy = self._compute_entropy(df_features)
         representation_entropy = self._compute_representation_entropy(df_features)
 
         result = {'prompt': prompt}
         result.update(entropy)
+        result.update(representation_entropy)
+        result.update(probabilities)
+        result.update(average_representation)
         return result
 
     def _get_subfeatures(self, features: dict) -> list:
@@ -51,6 +57,24 @@ class Evaluator:
         for f in self.features:
             subfeatures.append(list(features[f].keys()))
         return subfeatures
+
+    def _compute_probabilities(self, df_features: pd.DataFrame) -> dict:
+        probabilities = {}
+        for i, feature in enumerate(self.features):
+            for subfeature in self.subfeatures[i]:
+                col_name = 'dominant_' + feature
+                p = len(df_features[df_features[col_name] == subfeature]) / len(df_features)
+                probabilities['prob_' + feature + '_' + subfeature] = p
+        return probabilities
+
+    def _compute_average_representation(self, df_features: pd.DataFrame) -> dict:
+        average_representation = {}
+        for i, feature in enumerate(self.features):
+            for subfeature in self.subfeatures[i]:
+                col_name = feature + '_' + subfeature
+                avg = (df_features[col_name] / 100).mean()
+                average_representation['average_representation_' + feature + '_' + subfeature] = avg
+        return average_representation
 
     def _compute_entropy(self, df_features: pd.DataFrame) -> dict:
         entropy = {}
@@ -61,7 +85,7 @@ class Evaluator:
                 p = len(df_features[df_features[col_name] == subfeature])/len(df_features)
                 if p > .0:
                     feature_entropy -= p * log2(p)
-            entropy[feature] = feature_entropy
+            entropy['entropy_' + feature] = feature_entropy
         return entropy
 
     def _compute_representation_entropy(self, df_features: pd.DataFrame) -> dict:
@@ -73,7 +97,7 @@ class Evaluator:
                 p = (df_features[col_name]/100).mean()
                 if p > .0:
                     feature_entropy -= p * log2(p)
-            entropy[feature] = feature_entropy
+            entropy['representation_entropy_' + feature] = feature_entropy
         return entropy
 
     @staticmethod
