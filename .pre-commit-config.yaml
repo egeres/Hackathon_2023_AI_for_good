@@ -10,7 +10,8 @@ repos:
     hooks:
       # - id: check-json // Not working for Json with comments! Disabled for now
       - id: trailing-whitespace
-      - id: mixed-line-ending
+      # - id: mixed-line-ending
+      # - id: end-of-file-fixer
       - id: check-ast # are .py's are valid?
       - id: check-docstring-first
       - id: check-toml
@@ -19,7 +20,6 @@ repos:
       - id: check-builtin-literals
       - id: check-byte-order-marker
       - id: check-executables-have-shebangs
-      - id: end-of-file-fixer
         types: [markdown, python]
         files: "\\.(md|py)$"
 
