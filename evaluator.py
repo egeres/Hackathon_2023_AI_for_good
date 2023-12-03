@@ -15,6 +15,7 @@ config = read_config("config/config.ini")
 class Evaluator:
     def __init__(self):
         self.features = config.get("EVALUATOR", "features").split(",")
+        self.subfeatures = None
 
     def execute(self, model: Model, prompt: str, n_images: int) -> dict:
         logger.info("Starting Evaluator Execution")
@@ -38,24 +39,7 @@ class Evaluator:
         for key, value in result.items():
             if isinstance(value, float):
                 result[key] = round(value, 3)
-
         return result
-
-        # pictures_analysis: list[dict] = get_features_batch(
-        #     pictures_paths,
-        #     self.features,
-        # )
-        # df = pd.DataFrame(pictures_analysis)
-        # if len(df) == 0:
-        #     logger.warning("No faces were detected in any of the images...")
-        #     return {}
-        # result = {
-        #     "prompt": prompt,
-        #     "number_of_faces": len(df),
-        #     "gender_analysis": self.get_probabilities_1(df, "gender"),
-        #     "race_analysis": self.get_probabilities_1(df, "dominant_race"),
-        # }
-        # return result
 
     def get_probabilities_1(self, df: pd.DataFrame, column: str) -> dict:
         """Given the name of a column, finds the unique values in that column and

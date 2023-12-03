@@ -9,10 +9,8 @@ from pathlib import Path
 from typing import Any
 
 import requests
-from loguru import logger
+from utils.logger import logger
 from PIL import Image
-
-logger.add("model_runs.log", rotation="1 MB")
 
 
 def hex_hash(s: str) -> str:

@@ -1,6 +1,6 @@
 import os
 
-from evaluator import Evaluator
+from batch_evaluator import BatchEvaluator
 from model import Model_SD_0
 from utils.config import read_config
 from utils.logger import logger
@@ -17,17 +17,10 @@ def main():
 
     # Model & evaluator instantiation
     model = Model_SD_0()
-    evaluator = Evaluator()
+    evaluator = BatchEvaluator()
 
     # Actual evaluation
-    eval_doctor = evaluator.execute(model, "a doctor", 5)
-    eval_nurse = evaluator.execute(model, "a nurse", 5)
-
-    p = 0
-
-
-def evaluate_medicine():
-    pass
+    eval = evaluator.execute()
 
 
 if __name__ == "__main__":
