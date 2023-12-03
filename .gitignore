@@ -1,4 +1,10 @@
+
+outputs/
+
 .idea/
 .vscode/
 data/
 log/
+__pycache__/
+
+model_runs.log
