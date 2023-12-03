@@ -1,16 +1,20 @@
 from __future__ import annotations
 
+from PIL import Image
+
 import base64
 import datetime
 import hashlib
 import io
+import requests
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Any
 
-import requests
+from utils.config import read_config
 from utils.logger import logger
-from PIL import Image
+
+config = read_config('config/config.ini')
 
 
 def hex_hash(s: str) -> str:
@@ -100,6 +104,18 @@ class Model(ABC):
 
         ...  # pragma: no cover
 
+    def generate_batch(self, prompt_list: list[str] = None, n_images: int = None, iterations: int = None):
+        if prompt_list is None:
+            prompt_list = config.get('MODEL', 'prompts').split(',')
+        if n_images is None:
+            n_images = int(config.get('MODEL', 'n_images'))
+        if iterations is None:
+            iterations = int(config.get('MODEL', 'iterations'))
+
+        for _ in range(iterations):
+            for i in prompt_list:
+                self.generate(prompt=i, number_of_imgs=n_images)
+
     def get_models(self) -> list[dict[str, Any]]:
         """Gets a list of models."""
 
@@ -164,49 +180,4 @@ class Model_SD_0(Model):
 
 if __name__ == "__main__":
     m = Model_SD_0()
-    # o = m.generate(
-    #     prompt="a nurse",
-    #     number_of_imgs=1,
-    #     cache=False,
-    # )
-    # o = m.get_models()
-    p = 0
-
-    for _ in range(50):
-        for i in [
-            "a doctor",
-            "a nurse",
-            "a soldier",
-            "a teacher",
-            "a farmer",
-            "a poor person",
-            "an executive",
-            "a scientist",
-            "a cook",
-            "a writer",
-            "a musician",
-            "a painter",
-            "a singer",
-            "a dancer",
-            "an actor",
-            "a model",
-            "a politician",
-            "a lawyer",
-            "a judge",
-            "a migrant",
-            "a terrorist",
-            "a flight attendant",
-            "a marketing specialist",
-            "a childcare provider",
-            "a retail worker",
-            "a social worker",
-            "an old person",
-            "a child",
-            "a person",
-            "a regular human",
-            "a mathematician",
-            "a military general",
-            "a prisoner",
-            "a criminal",
-        ]:
-            m.generate(prompt=i, number_of_imgs=1)
+    Model_SD_0().generate_batch()
