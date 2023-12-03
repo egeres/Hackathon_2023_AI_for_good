@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from deepface import DeepFace
+from diskcache import FanoutCache
 
 from utils.config import read_config
 from utils.logger import logger
@@ -10,7 +11,11 @@ from utils.logger import logger
 config = read_config("config/config.ini")
 
 
-def get_features(img_path: str | Path, features) -> list[dict]:
+@FanoutCache("./.cache_features").memoize()
+def get_features(img_path: str | Path, features: list) -> list[dict]:
+    """Given the path to an image and a list of features to extract, returns a list of
+    dictionaries representing the features of the detected faces on the image"""
+
     if isinstance(img_path, Path):
         img_path = str(img_path)
     # if isinstance(img_path, list):
