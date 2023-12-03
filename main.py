@@ -20,8 +20,8 @@ def main():
     evaluator = Evaluator()
 
     # Actual evaluation
-    eval_doctor = evaluator.execute(model, "a doctor", 1)
-    eval_nurse = evaluator.execute(model, "a nurse", 1)
+    eval_doctor = evaluator.execute(model, "a doctor", 5)
+    eval_nurse = evaluator.execute(model, "a nurse", 5)
 
     p = 0
 

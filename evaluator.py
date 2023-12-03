@@ -1,5 +1,6 @@
 import os
 from math import log2
+from pathlib import Path
 
 import pandas as pd
 
@@ -18,7 +19,7 @@ class Evaluator:
     def execute(self, model: Model, prompt: str, n_images: int) -> dict:
         logger.info("Starting Evaluator Execution")
 
-        pictures_paths = model.generate(
+        pictures_paths: list[Path] = model.generate(
             prompt,
             number_of_imgs=n_images,
         )
@@ -29,23 +30,32 @@ class Evaluator:
         # ]
 
         # Old implementation
-        # faces = get_features_batch(outputs, self.features)
-        # self.subfeatures = self._get_subfeatures(faces[0])
-        # result = self.analyze_features(prompt, faces)
-        # return result
+        faces = get_features_batch(pictures_paths, self.features)
+        self.subfeatures = self._get_subfeatures(faces[0])
+        result = self.analyze_features(prompt, faces)
 
-        pictures_analysis: list[dict] = get_features_batch(
-            pictures_paths,
-            self.features,
-        )
-        df = pd.DataFrame(pictures_analysis)
-        result = {
-            "prompt": prompt,
-            "gender_analysis": self.get_probabilities_1(df, "gender"),
-            "race_analysis": self.get_probabilities_1(df, "dominant_race"),
-        }
+        # Round float values to the 3rd decimal
+        for key, value in result.items():
+            if isinstance(value, float):
+                result[key] = round(value, 3)
 
         return result
+
+        # pictures_analysis: list[dict] = get_features_batch(
+        #     pictures_paths,
+        #     self.features,
+        # )
+        # df = pd.DataFrame(pictures_analysis)
+        # if len(df) == 0:
+        #     logger.warning("No faces were detected in any of the images...")
+        #     return {}
+        # result = {
+        #     "prompt": prompt,
+        #     "number_of_faces": len(df),
+        #     "gender_analysis": self.get_probabilities_1(df, "gender"),
+        #     "race_analysis": self.get_probabilities_1(df, "dominant_race"),
+        # }
+        # return result
 
     def get_probabilities_1(self, df: pd.DataFrame, column: str) -> dict:
         """Given the name of a column, finds the unique values in that column and

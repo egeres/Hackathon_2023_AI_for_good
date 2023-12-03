@@ -72,7 +72,7 @@ class Model(ABC):
             return images[:number_of_imgs]
 
         else:
-            return [
+            list_of_list_of_paths = [
                 self._generate(
                     prompt=prompt,
                     negative_prompt=negative_prompt,
@@ -81,6 +81,11 @@ class Model(ABC):
                     size=size,
                 )
                 for _ in range(number_of_imgs)
+            ]
+            return [
+                path
+                for list_of_paths in list_of_list_of_paths
+                for path in list_of_paths
             ]
 
     @abstractmethod
@@ -123,7 +128,7 @@ class Model_SD_0(Model):
         cfg_scale: float = 7.0,
         size: tuple[int, int] = (512, 512),
         path_dir_output: Path | None = None,
-    ) -> Path:
+    ) -> list[Path]:
         logger.info(f"Request: {prompt}, {steps}, {cfg_scale}, {size}")
 
         if path_dir_output is None:
@@ -133,29 +138,77 @@ class Model_SD_0(Model):
         response = requests.post(
             url=f"{self.url}/sdapi/v1/txt2img",
             json={
+                # "prompt": prompt + ", photorealistic, soft light, high quality",
                 "prompt": prompt,
-                "negative_prompt": negative_prompt,
+                # "negative_prompt": negative_prompt,
                 "steps": steps,
                 "cfg_scale": cfg_scale,
                 "width": size[0],
                 "height": size[1],
                 "sampler_name": "DPM++ 2M Karras",
+                "batch_size": 4,
             },
         )
         assert response.status_code == 200, f"Server error: {response.text}"
         r = response.json()
-        image = Image.open(io.BytesIO(base64.b64decode(r["images"][0])))
+        # image = Image.open(io.BytesIO(base64.b64decode(r["images"][0])))
 
         # File management
-        date_format = "%Y-%m-%d_%H-%M-%S"
-        date_formatted = datetime.datetime.now().strftime(date_format)
-        path = path_dir_output / f"{date_formatted}_{prompt}.png"
-        image.save(path)
-        return path
+        paths = []
+        for n, img in enumerate(r["images"]):
+            image = Image.open(io.BytesIO(base64.b64decode(img)))
+            date_formatted = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            path = path_dir_output / f"{date_formatted}_{prompt}_{n}.png"
+            image.save(path)
+            paths.append(path)
+        return paths
 
 
 if __name__ == "__main__":
     m = Model_SD_0()
-    o = m.generate(prompt="a nurse", number_of_imgs=1)
+    # o = m.generate(
+    #     prompt="a nurse",
+    #     number_of_imgs=1,
+    #     cache=False,
+    # )
     # o = m.get_models()
     p = 0
+
+    for _ in range(50):
+        for i in [
+            "a doctor",
+            "a nurse",
+            "a soldier",
+            "a teacher",
+            "a farmer",
+            "a poor person",
+            "an executive",
+            "a scientist",
+            "a cook",
+            "a writer",
+            "a musician",
+            "a painter",
+            "a singer",
+            "a dancer",
+            "an actor",
+            "a model",
+            "a politician",
+            "a lawyer",
+            "a judge",
+            "a migrant",
+            "a terrorist",
+            "a flight attendant",
+            "a marketing specialist",
+            "a childcare provider",
+            "a retail worker",
+            "a social worker",
+            "an old person",
+            "a child",
+            "a person",
+            "a regular human",
+            "a mathematician",
+            "a military general",
+            "a prisoner",
+            "a criminal",
+        ]:
+            m.generate(prompt=i, number_of_imgs=1)
