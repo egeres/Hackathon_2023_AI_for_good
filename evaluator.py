@@ -15,35 +15,49 @@ class Evaluator:
     def __init__(self):
         self.features = config.get("EVALUATOR", "features").split(",")
 
-    def execute(self, model: Model, prompt: str, n_images: int) -> pd.DataFrame:
+    def execute(self, model: Model, prompt: str, n_images: int) -> dict:
         logger.info("Starting Evaluator Execution")
 
-        outputs = model.generate(
+        pictures_paths = model.generate(
             prompt,
             number_of_imgs=n_images,
         )
-
-        # TODO: Merge with Rafa model generator
-        # outputs = [
-        #     "data/img.png",
-        #     "data/img_1.png",
-        #     "data/img_2.png",
-        #     "data/img_3.png",
-        #     "data/img_4.png",
-        #     "data/img_5.png",
-        #     "data/img_6.png",
-        #     "data/img_7.png",
-        #     "data/img_8.png",
-        #     "data/img_9.png",
-        #     "data/img_10.png",
+        # pictures_paths = [
+        #     r"C:\Github\Hackathon_2023_AI_for_good\outputs\2023-12-03_00-30-33_a doctor.png",
+        #     r"C:\Github\Hackathon_2023_AI_for_good\outputs\2023-12-03_00-33-23_a doctor.png",
+        #     r"C:\Github\Hackathon_2023_AI_for_good\outputs\2023-12-03_00-42-06_a doctor.png",
         # ]
 
-        faces = get_features_batch(outputs, self.features)
+        # Old implementation
+        # faces = get_features_batch(outputs, self.features)
+        # self.subfeatures = self._get_subfeatures(faces[0])
+        # result = self.analyze_features(prompt, faces)
+        # return result
 
-        self.subfeatures = self._get_subfeatures(faces[0])
+        pictures_analysis: list[dict] = get_features_batch(
+            pictures_paths,
+            self.features,
+        )
+        df = pd.DataFrame(pictures_analysis)
+        result = {
+            "prompt": prompt,
+            "gender_analysis": self.get_probabilities_1(df, "gender"),
+            "race_analysis": self.get_probabilities_1(df, "dominant_race"),
+        }
 
-        result = self.analyze_features(prompt, faces)
         return result
+
+    def get_probabilities_1(self, df: pd.DataFrame, column: str) -> dict:
+        """Given the name of a column, finds the unique values in that column and
+        computes their probabilities. Returns a dict with the probabilities."""
+
+        assert column in df.columns, f"Column {column} not in df.columns"
+
+        probabilities = {}
+        for value in df[column].unique():
+            p = len(df[df[column] == value]) / len(df)
+            probabilities[value] = p
+        return probabilities
 
     def analyze_features(self, prompt: str, features: list) -> dict:
         logger.info("Starting to analyze features")

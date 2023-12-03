@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from pathlib import Path
+
 from deepface import DeepFace
 
 from utils.config import read_config
@@ -6,18 +10,26 @@ from utils.logger import logger
 config = read_config("config/config.ini")
 
 
-def get_features(img_path: str, features: list = None) -> list:
+def get_features(img_path: str | Path, features) -> list[dict]:
+    if isinstance(img_path, Path):
+        img_path = str(img_path)
+    # if isinstance(img_path, list):
+    #     img_path = [str(path) for path in img_path]
     logger.debug("Evaluating image {}".format(img_path))
+
+    # Returns a list of dicts or a dict depending on 'img_path'!
     faces = DeepFace.analyze(img_path=img_path, actions=features)
+    if isinstance(faces, dict):
+        faces = [faces]
     for face in faces:
         face["source"] = img_path
     return faces
 
 
-def get_features_batch(inputs: list, features: list) -> list:
-    logger.debug(
-        f"Starting to batch analyze {len(inputs)} images, this may take a while."
-    )
+def get_features_batch(
+    inputs: list[str | Path] | list[str] | list[Path], features: list
+) -> list:
+    logger.debug(f"Starting to batch analyze {len(inputs)} images...")
     res = []
     for img in inputs:
         try:

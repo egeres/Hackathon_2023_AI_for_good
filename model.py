@@ -94,6 +94,7 @@ class Model_SD_0(Model):
     ) -> Path:
         logger.info(f"Request: {prompt}, {steps}, {cfg_scale}, {size}")
 
+        # Request itself
         response = requests.post(
             url=f"{self.url}/sdapi/v1/txt2img",
             json={
@@ -110,6 +111,7 @@ class Model_SD_0(Model):
         r = response.json()
         image = Image.open(io.BytesIO(base64.b64decode(r["images"][0])))
 
+        # File management
         date_format = "%Y-%m-%d_%H-%M-%S"
         date_formatted = datetime.datetime.now().strftime(date_format)
         path = Path(f"outputs/{date_formatted}_{prompt}.png")
