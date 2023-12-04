@@ -1,4 +1,5 @@
-import os
+from __future__ import annotations
+
 from math import log2
 from pathlib import Path
 
@@ -16,7 +17,7 @@ class Evaluator:
     def __init__(self):
         self.features = config.get("EVALUATOR", "features").split(",")
 
-    def execute(self, model: Model, prompt: str, n_images: int) -> dict:
+    def execute(self, model: Model, prompt: str, n_images: int) -> dict | None:
         logger.info("Starting Evaluator Execution")
 
         pictures_paths: list[Path] = model.generate(
@@ -31,6 +32,9 @@ class Evaluator:
 
         # Old implementation
         faces = get_features_batch(pictures_paths, self.features)
+        if len(faces) == 0:
+            logger.warning(f"No faces in {prompt}")
+            return None
         self.subfeatures = self._get_subfeatures(faces[0])
         result = self.analyze_features(prompt, faces)
 

@@ -12,6 +12,8 @@ repos:
       - id: trailing-whitespace
       # - id: mixed-line-ending
       # - id: end-of-file-fixer
+      - id: mixed-line-ending
+        args: ['--fix=lf']
       - id: check-ast # are .py's are valid?
       - id: check-docstring-first
       - id: check-toml
@@ -70,5 +72,4 @@ repos:
     rev: v1.5.0
     hooks:
       - id: yesqa
-
 # TODO: Add ruff
