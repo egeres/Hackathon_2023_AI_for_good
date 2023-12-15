@@ -2,6 +2,7 @@
 # pre-commit install
 # pre-commit install --hook-type commit-msg
 # pre-commit run --all-files
+# pre-commit run --files "sys_setup/windows/main.py"
 
 repos:
   # 🤡 Alright bruh

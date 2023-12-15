@@ -6,7 +6,7 @@ from pathlib import Path
 import pandas as pd
 
 from feature import get_features_batch
-from model import Model
+from model import Model, hex_hash
 from utils.config import read_config
 from utils.logger import logger
 
@@ -16,19 +16,10 @@ config = read_config("config/config.ini")
 class Evaluator:
     def __init__(self):
         self.features = config.get("EVALUATOR", "features").split(",")
+        self.subfeatures = None
 
-    def execute(self, model: Model, prompt: str, n_images: int) -> dict | None:
+    def execute(self, prompt: str, pictures_paths: list) -> dict:
         logger.info("Starting Evaluator Execution")
-
-        pictures_paths: list[Path] = model.generate(
-            prompt,
-            number_of_imgs=n_images,
-        )
-        # pictures_paths = [
-        #     r"C:\Github\Hackathon_2023_AI_for_good\outputs\2023-12-03_00-30-33_a doctor.png",
-        #     r"C:\Github\Hackathon_2023_AI_for_good\outputs\2023-12-03_00-33-23_a doctor.png",
-        #     r"C:\Github\Hackathon_2023_AI_for_good\outputs\2023-12-03_00-42-06_a doctor.png",
-        # ]
 
         # Old implementation
         faces = get_features_batch(pictures_paths, self.features)
@@ -42,24 +33,27 @@ class Evaluator:
         for key, value in result.items():
             if isinstance(value, float):
                 result[key] = round(value, 3)
-
         return result
 
-        # pictures_analysis: list[dict] = get_features_batch(
-        #     pictures_paths,
-        #     self.features,
-        # )
-        # df = pd.DataFrame(pictures_analysis)
-        # if len(df) == 0:
-        #     logger.warning("No faces were detected in any of the images...")
-        #     return {}
-        # result = {
-        #     "prompt": prompt,
-        #     "number_of_faces": len(df),
-        #     "gender_analysis": self.get_probabilities_1(df, "gender"),
-        #     "race_analysis": self.get_probabilities_1(df, "dominant_race"),
-        # }
-        # return result
+    def execute_batch(self):
+        logger.info("Batch processing images")
+
+        # Pre-Execution
+        img_path = config.get("EVALUATOR", "image_folder")
+        prompts = config.get("MODEL", "prompts").split(",")
+        hex_prompts = [hex_hash(x) for x in prompts]
+        available_prompts = os.listdir(img_path)
+
+        res = []
+        for i, hex_prompt in enumerate(hex_prompts):
+            if hex_prompt in available_prompts:
+                paths = [
+                    os.path.join(img_path, hex_prompt, p)
+                    for p in os.listdir(os.path.join(img_path, hex_prompt))
+                    if p.endswith(".png")
+                ]
+                res.append(self.execute(prompts[i], paths))
+        return res
 
     def get_probabilities_1(self, df: pd.DataFrame, column: str) -> dict:
         """Given the name of a column, finds the unique values in that column and
@@ -91,7 +85,7 @@ class Evaluator:
         entropy = self._compute_entropy(df_features)
         representation_entropy = self._compute_representation_entropy(df_features)
 
-        result = {"prompt": prompt}
+        result = {"prompt": prompt, "n_faces": len(df_features)}
         result.update(entropy)
         result.update(representation_entropy)
         result.update(probabilities)
