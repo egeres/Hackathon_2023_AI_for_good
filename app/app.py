@@ -1,6 +1,6 @@
 import numpy as np
-import streamlit as st
 import plotly.figure_factory as ff
+import streamlit as st
 
 st.set_page_config(
     page_title="Home",
@@ -17,12 +17,12 @@ x2 = np.random.randn(200)
 x3 = np.random.randn(200) + 2
 
 #
-st.title('AI Image Generator Model Bias Analysis')
+st.title("AI Image Generator Model Bias Analysis")
 
 # Create distplot with custom bin_size
 hist_data = [x1, x2, x3]
-group_labels = ['White', 'Black', 'Asian']
-fig = ff.create_distplot(hist_data, group_labels, bin_size=[.1, .25, .5])
+group_labels = ["White", "Black", "Asian"]
+fig = ff.create_distplot(hist_data, group_labels, bin_size=[0.1, 0.25, 0.5])
 
 # Plot!
 st.plotly_chart(fig, use_container_width=True)

@@ -1,7 +1,8 @@
-import pandas as pd
-import altair as alt
-import streamlit as st
 from urllib.error import URLError
+
+import altair as alt
+import pandas as pd
+import streamlit as st
 
 st.set_page_config(page_title="DataFrame Demo", page_icon="📊")
 

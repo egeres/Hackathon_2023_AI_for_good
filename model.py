@@ -73,22 +73,19 @@ class Model(ABC):
             # Then we return the images
             return images[:number_of_imgs]
 
-        else:
-            list_of_list_of_paths = [
-                self._generate(
-                    prompt=prompt,
-                    negative_prompt=negative_prompt,
-                    steps=steps,
-                    cfg_scale=cfg_scale,
-                    size=size,
-                )
-                for _ in range(number_of_imgs)
-            ]
-            return [
-                path
-                for list_of_paths in list_of_list_of_paths
-                for path in list_of_paths
-            ]
+        list_of_list_of_paths = [
+            self._generate(
+                prompt=prompt,
+                negative_prompt=negative_prompt,
+                steps=steps,
+                cfg_scale=cfg_scale,
+                size=size,
+            )
+            for _ in range(number_of_imgs)
+        ]
+        return [
+            path for list_of_paths in list_of_list_of_paths for path in list_of_paths
+        ]
 
     @abstractmethod
     def _generate(

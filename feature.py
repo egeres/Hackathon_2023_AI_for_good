@@ -20,7 +20,7 @@ def get_features(img_path: str | Path, features: list) -> list[dict]:
         img_path = str(img_path)
     # if isinstance(img_path, list):
     #     img_path = [str(path) for path in img_path]
-    logger.debug("Evaluating image {}".format(img_path))
+    logger.debug(f"Evaluating image {img_path}")
 
     # Returns a list of dicts or a dict depending on 'img_path'!
     faces = DeepFace.analyze(img_path=img_path, actions=features)

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import matplotlib.colors as mcolors
 import pandas as pd
 import plotly.graph_objects as go
