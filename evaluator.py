@@ -13,6 +13,8 @@ from utils.logger import logger
 
 config = read_config("config/config.ini")
 
+# REFACTOR: Switch to pathlib after unit-tests are added
+
 
 class Evaluator:
     def __init__(self):
@@ -40,6 +42,9 @@ class Evaluator:
         logger.info("Batch processing images")
 
         # Pre-Execution
+        # REFACTOR: Global state should be either class-level or maybe init-level, but
+        # not inside a function. On top of this, globally gathered data should be
+        # asserted to ensure it meets the data types after parsing!
         img_path = config.get("EVALUATOR", "image_folder")
         prompts = config.get("MODEL", "prompts").split(",")
         hex_prompts = [hex_hash(x) for x in prompts]

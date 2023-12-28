@@ -10,7 +10,7 @@ datetime_format = "%Y-%m-%d %H-%M-%S"
 root_dir = os.path.dirname(os.path.dirname(__file__))
 
 
-def console_handler(format: str = None) -> logging.Handler:
+def console_handler(format: str | None = None) -> logging.Handler:
     """
     Creates a log to console handler.
     :param format: log format specified in config
@@ -25,7 +25,7 @@ def console_handler(format: str = None) -> logging.Handler:
     return console_handler
 
 
-def file_handler(file_path: str, format: str = None) -> logging.Handler:
+def file_handler(file_path: str, format: str | None = None) -> logging.Handler:
     """
     Creates a log to file handler
     :param file_path: File path to write log to

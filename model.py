@@ -14,6 +14,8 @@ from PIL import Image
 from utils.config import read_config
 from utils.logger import logger
 
+# REFACTOR: config shouldn't be read globally on a script that is meant to export
+# classes etc
 config = read_config("config/config.ini")
 
 
@@ -109,6 +111,9 @@ class Model(ABC):
         n_images: int | None = None,
         iterations: int | None = None,
     ):
+        # REFACTOR: It's an anti pattern to get "globalish" parameters from the in this
+        # step! The information should come from outside or from a single place that
+        # assumes gathering the default values from the config file!
         if prompt_list is None:
             prompt_list = config.get("MODEL", "prompts").split(",")
         if n_images is None:

@@ -1,6 +1,10 @@
 import os
 from configparser import ConfigParser
 
+# REFACTOR: This should use pathlib!!
+
+# REFACTOR: Maybe the config should be a yaml, ini is so 90's
+
 
 def read_config(config_file: str) -> ConfigParser:
     # TODO: Add root_dir
