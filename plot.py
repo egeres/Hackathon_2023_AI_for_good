@@ -4,6 +4,7 @@ import matplotlib.colors as mcolors
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+from rich import print
 
 
 def interpolate_color(color1, color2, factor: float) -> str:
@@ -14,7 +15,7 @@ def interpolate_color(color1, color2, factor: float) -> str:
     return mcolors.to_hex(mixed_rgb)
 
 
-def analysis_chart_genderrace(input_data: list[dict]) -> go.Figure:
+def plot_chart_genderrace(input_data: list[dict]) -> go.Figure:
     print("[green]Plotting...")
 
     """input_data looks like:
@@ -68,3 +69,12 @@ def analysis_chart_genderrace(input_data: list[dict]) -> go.Figure:
     )
 
     return fig
+
+
+if __name__ == "__main__":
+    from evaluator import Evaluator
+
+    evaluator = Evaluator()
+    eval = evaluator.execute_batch()
+    plot = plot_chart_genderrace(eval)
+    plot.show()

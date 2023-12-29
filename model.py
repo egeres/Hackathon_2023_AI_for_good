@@ -28,6 +28,9 @@ class Model(ABC):
     url: str
     default_pics_dir: Path = Path(__file__).parent / "generated_images"
 
+    # REFACTOR: use config.get("EVALUATOR", "image_folder") instead, but make it a more
+    # generic name, not something specific of EVALUATOR
+
     def generate(
         self,
         prompt: str,
@@ -107,23 +110,23 @@ class Model(ABC):
 
     def generate_batch(
         self,
-        prompt_list: list[str] | None = None,
+        prompts: list[str] | None = None,
         n_images: int | None = None,
         iterations: int | None = None,
     ):
         # REFACTOR: It's an anti pattern to get "globalish" parameters from the in this
         # step! The information should come from outside or from a single place that
         # assumes gathering the default values from the config file!
-        if prompt_list is None:
-            prompt_list = config.get("MODEL", "prompts").split(",")
+        if prompts is None:
+            prompts = config.get("MODEL", "prompts").split(",")
         if n_images is None:
             n_images = int(config.get("MODEL", "n_images"))
         if iterations is None:
             iterations = int(config.get("MODEL", "iterations"))
 
         for _ in range(iterations):
-            for i in prompt_list:
-                self.generate(prompt=i, number_of_imgs=n_images)
+            for i in prompts:
+                self.generate(prompt=i, number_of_imgs=n_images, cache=True)
 
     def get_models(self) -> list[dict[str, Any]]:
         """Gets a list of models."""

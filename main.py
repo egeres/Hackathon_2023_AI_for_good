@@ -4,15 +4,18 @@ import time
 
 from rich import print
 
-from analysis import analysis_chart_genderrace
 from evaluator import Evaluator
 from model import Model_SD_0
+from plot import analysis_chart_genderrace
 from utils.config import read_config
 from utils.logger import logger
 
 root_dir = os.path.dirname(__file__)
 
 config = read_config("config/config.ini")
+
+
+# TEST: Project needs E2E tests before refactors
 
 
 def main():
@@ -33,15 +36,24 @@ def main():
         generate = True
         evaluate = True
 
+    # TODO: generate_batch should be called from within evaluator in case more data
+    # is needed
+
     # Model and image generation
     if generate:
         model = Model_SD_0()
-        images = model.generate_batch()
+        model.generate_batch(["a nurse", "a doctor"])
+
+    p = 0
+
+    # REFACTOR: execute_batch() occludes too much information away from the user
 
     # Evaluation
     if evaluate:
         evaluator = Evaluator()
         eval = evaluator.execute_batch()
+
+    p = 0
 
 
 if __name__ == "__main__":

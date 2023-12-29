@@ -6,9 +6,7 @@ import streamlit as st
 st.markdown("# Action Bias")
 st.sidebar.markdown("# Action Bias")
 
-st.write(
-    """Some text..."""
-)
+st.write("""Some text...""")
 
 progress_bar = st.sidebar.progress(0)
 status_text = st.sidebar.empty()

@@ -50,6 +50,7 @@ class Evaluator:
         hex_prompts = [hex_hash(x) for x in prompts]
         available_prompts = os.listdir(img_path)
 
+        # DOCS: Explain this code
         res = []
         for i, hex_prompt in enumerate(hex_prompts):
             if hex_prompt in available_prompts:
