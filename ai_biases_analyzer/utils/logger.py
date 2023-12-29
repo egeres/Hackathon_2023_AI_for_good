@@ -4,7 +4,7 @@ import datetime
 import logging
 import os
 
-from utils.config import read_config
+from ai_biases_analyzer.utils.config import read_config
 
 config_section = "LOGGER"
 config_file = "config/config.ini"

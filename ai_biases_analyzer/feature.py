@@ -5,8 +5,8 @@ from pathlib import Path
 from deepface import DeepFace
 from diskcache import FanoutCache
 
-from utils.config import read_config
-from utils.logger import logger
+from ai_biases_analyzer.utils.config import read_config
+from ai_biases_analyzer.utils.logger import logger
 
 config = read_config("config/config.ini")
 

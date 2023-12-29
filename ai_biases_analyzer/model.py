@@ -11,8 +11,8 @@ from typing import Any
 import requests
 from PIL import Image
 
-from utils.config import read_config
-from utils.logger import logger
+from ai_biases_analyzer.utils.config import read_config
+from ai_biases_analyzer.utils.logger import logger
 
 # REFACTOR: config shouldn't be read globally on a script that is meant to export
 # classes etc
