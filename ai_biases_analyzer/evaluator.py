@@ -45,7 +45,9 @@ class Evaluator:
         # REFACTOR: Global state should be either class-level or maybe init-level, but
         # not inside a function. On top of this, globally gathered data should be
         # asserted to ensure it meets the data types after parsing!
-        img_path = config.get("EVALUATOR", "image_folder")
+        img_path = Path(__file__).parent.parent / config.get(
+            "EVALUATOR", "image_folder"
+        )
         prompts = config.get("MODEL", "prompts").split(",")
         hex_prompts = [hex_hash(x) for x in prompts]
         available_prompts = os.listdir(img_path)
