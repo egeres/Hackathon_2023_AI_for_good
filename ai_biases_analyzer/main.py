@@ -1,10 +1,11 @@
 import argparse
 import os
 
+from loguru import logger
+
 from evaluator import Evaluator
 from model import Model_SD_0
 from utils.config import read_config
-from utils.logger import logger
 
 root_dir = os.path.dirname(__file__)
 
