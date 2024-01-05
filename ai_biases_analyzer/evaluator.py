@@ -7,7 +7,7 @@ from pathlib import Path
 import pandas as pd
 
 from ai_biases_analyzer.feature import get_features_batch
-from ai_biases_analyzer.model import Model, hex_hash
+from ai_biases_analyzer.model import hex_hash
 from ai_biases_analyzer.utils.config import read_config
 from ai_biases_analyzer.utils.logger import logger
 
