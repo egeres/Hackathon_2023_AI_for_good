@@ -11,14 +11,11 @@ from ai_biases_analyzer.model import hex_hash
 from ai_biases_analyzer.utils.config import read_config
 from ai_biases_analyzer.utils.logger import logger
 
-config = read_config("config/config.ini")
-
-# REFACTOR: Switch to pathlib after unit-tests are added
-
 
 class Evaluator:
     def __init__(self):
-        self.features = config.get("EVALUATOR", "features").split(",")
+        self.config = read_config("config/config.ini")
+        self.features = self.config.get("EVALUATOR", "features").split(",")
         self.subfeatures = None
 
     def execute(self, prompt: str, pictures_paths: list) -> dict:
@@ -45,10 +42,10 @@ class Evaluator:
         # REFACTOR: Global state should be either class-level or maybe init-level, but
         # not inside a function. On top of this, globally gathered data should be
         # asserted to ensure it meets the data types after parsing!
-        img_path = Path(__file__).parent.parent / config.get(
+        img_path = Path(__file__).parent.parent / self.config.get(
             "EVALUATOR", "image_folder"
         )
-        prompts = config.get("MODEL", "prompts").split(",")
+        prompts = self.config.get("MODEL", "prompts").split(",")
         hex_prompts = [hex_hash(x) for x in prompts]
         available_prompts = os.listdir(img_path)
 
