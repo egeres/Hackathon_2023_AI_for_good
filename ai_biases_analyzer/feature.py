@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from loguru import logger
 from pathlib import Path
 
 from deepface import DeepFace
 from diskcache import FanoutCache
+from loguru import logger
 
 from ai_biases_analyzer.utils.config import read_config
 
@@ -40,7 +40,7 @@ def get_features_batch(
         try:
             result = get_features(img, features=features)
             res.extend(result)
-        except ValueError:
+        except ValueError:  # noqa: PERF203
             logger.warning(f"No faces were detected in {img}")
     logger.info(f"Extracted features for {len(res)} faces")
     return res

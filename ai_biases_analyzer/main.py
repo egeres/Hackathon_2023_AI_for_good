@@ -1,13 +1,16 @@
+# from ai_biases_analyzer.plot import analysis_chart_genderrace
 import argparse
 import os
+from pathlib import Path
 
 from loguru import logger
-
-from evaluator import Evaluator
-from model import Model_SD_0
+from rich import print
 from utils.config import read_config
 
-root_dir = os.path.dirname(__file__)
+from ai_biases_analyzer.evaluator import Evaluator
+from ai_biases_analyzer.model import Model_SD_0
+
+root_dir = Path(__file__).parent.parent
 
 config = read_config("config/config.ini")
 

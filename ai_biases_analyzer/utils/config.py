@@ -1,5 +1,5 @@
-from pathlib import Path
 from configparser import ConfigParser
+from pathlib import Path
 
 # REFACTOR: This should use pathlib!!
 

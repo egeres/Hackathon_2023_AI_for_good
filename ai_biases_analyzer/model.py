@@ -5,11 +5,11 @@ import datetime
 import hashlib
 import io
 from abc import ABC, abstractmethod
-from loguru import logger
 from pathlib import Path
 from typing import Any
 
 import requests
+from loguru import logger
 from PIL import Image
 
 from ai_biases_analyzer.utils.config import read_config
@@ -26,7 +26,7 @@ def hex_hash(s: str) -> str:
 
 class Model(ABC):
     url: str
-    default_pics_dir: Path = Path(__file__).parent / "generated_images"
+    default_pics_dir: Path = Path(__file__).parent.parent / "generated_images"
 
     # REFACTOR: use config.get("EVALUATOR", "image_folder") instead, but make it a more
     # generic name, not something specific of EVALUATOR
@@ -43,9 +43,9 @@ class Model(ABC):
     ) -> list[Path]:
         """Generates various images from a prompt.
 
-        # DOCS: Add docs
         cache: If True, the images will be cached based on a hash of the prompt.
         """
+        # DOCS: Add docs
 
         # TODO: Add arg "batch_size": 1,
 
