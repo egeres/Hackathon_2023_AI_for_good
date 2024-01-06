@@ -4,18 +4,20 @@
 # pre-commit run --all-files
 # pre-commit run --files "sys_setup/windows/main.py"
 
+# More info about conventional commits here:
+# https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716
+
 repos:
   # 🤡 Alright bruh
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
-      # - id: check-json // Not working for Json with comments! Disabled for now
       - id: trailing-whitespace
       # - id: mixed-line-ending
       # - id: end-of-file-fixer
       - id: mixed-line-ending
-        args: ['--fix=lf']
-      - id: check-ast # are .py's are valid?
+        args: ["--fix=lf"]
+      - id: check-ast
       - id: check-docstring-first
       - id: check-toml
       - id: check-xml
@@ -26,14 +28,7 @@ repos:
         types: [markdown, python]
         files: "\\.(md|py)$"
 
-  # 🤡 Pyupgrade
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.15.0
-    hooks:
-      - id: pyupgrade
-
   # 🤡 Conventional commits
-  # More info here: https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716
   - repo: https://github.com/compilerla/conventional-pre-commit
     rev: v3.0.0
     hooks:
@@ -41,36 +36,20 @@ repos:
         stages: [commit-msg]
         args: [] # Opt: list of Conv Commits types to allow like: ci,fix..
 
-  # 🤡 Isort
-  - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
-    hooks:
-      - id: isort
-
   # 🤡 Blaaack
   - repo: https://github.com/psf/black
-    rev: 23.11.0
+    rev: 23.12.1
     hooks:
       - id: black
 
-  # # 🤡 Yamllint
-  # - repo: https://github.com/adrienverge/yamllint
-  #   rev: v1.33.0
-  #   hooks:
-  #     - id: yamllint
-
-  # # 🤡 Prettify .md's
-  # - repo: https://github.com/pre-commit/mirrors-prettier
-  #   rev: v4.0.0-alpha.3
-  #   hooks:
-  #     - id: prettier
-  #       name: 🖌️ Format code with Prettier
-  #       files: \.(json|markdown|md|yaml|yml)$
-  #       args: [--write]
-
-  # 🤡 YesQA
-  - repo: https://github.com/asottile/yesqa
-    rev: v1.5.0
+  # 🤡 Ruff
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.11
     hooks:
-      - id: yesqa
-# TODO: Add ruff
+      - id: ruff
+        types_or: [python, pyi, jupyter]
+        args:
+          [
+            "--select=UP,I,C4,PT,RET,SIM,PIE,PTH,FURB,PERF,RUF,RSE,EM,FA,B,TRY",
+            "--preview",
+          ]

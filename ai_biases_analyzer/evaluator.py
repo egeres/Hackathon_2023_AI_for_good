@@ -82,7 +82,7 @@ class Evaluator:
             + ["dominant_" + f for f in self.features]
             + self.features
         ]
-        df_features = self._unpack_columns(df_features, self.features + ["region"])
+        df_features = self._unpack_columns(df_features, [*self.features, "region"])
 
         # Compute distribution of possible biases by feature
         logger.debug("Computing probabilities")
