@@ -5,11 +5,11 @@ import datetime
 import hashlib
 import io
 from abc import ABC, abstractmethod
-from loguru import logger
 from pathlib import Path
 from typing import Any
 
 import requests
+from loguru import logger
 from PIL import Image
 
 from ai_biases_analyzer.utils.config import read_config

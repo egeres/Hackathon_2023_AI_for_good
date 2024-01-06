@@ -4,8 +4,8 @@ import os
 from math import log2
 from pathlib import Path
 
-from loguru import logger
 import pandas as pd
+from loguru import logger
 
 from ai_biases_analyzer.feature import get_features_batch
 from ai_biases_analyzer.model import hex_hash
