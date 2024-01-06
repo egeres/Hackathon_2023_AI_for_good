@@ -1,13 +1,11 @@
 import argparse
 import os
-import time
+
+from loguru import logger
 
 from evaluator import Evaluator
 from model import Model_SD_0
-from plot import analysis_chart_genderrace
-from rich import print
 from utils.config import read_config
-from utils.logger import logger
 
 root_dir = os.path.dirname(__file__)
 

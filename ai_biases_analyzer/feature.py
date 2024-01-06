@@ -1,12 +1,12 @@
 from __future__ import annotations
 
+from loguru import logger
 from pathlib import Path
 
 from deepface import DeepFace
 from diskcache import FanoutCache
 
 from ai_biases_analyzer.utils.config import read_config
-from ai_biases_analyzer.utils.logger import logger
 
 config = read_config("config/config.ini")
 

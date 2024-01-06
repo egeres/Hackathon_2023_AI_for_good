@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 from configparser import ConfigParser
 
 # REFACTOR: This should use pathlib!!
@@ -7,7 +7,6 @@ from configparser import ConfigParser
 
 
 def read_config(config_file: str) -> ConfigParser:
-    # TODO: Add root_dir
     """
     Reads configuration file and returns ConfigParser object.
     :param root_dir: Root directory of project.
@@ -15,5 +14,5 @@ def read_config(config_file: str) -> ConfigParser:
     :return: ConfigParser object.
     """
     config = ConfigParser()
-    config.read(os.path.join(os.getcwd(), config_file))
+    config.read(Path(__file__).parent.parent.parent / config_file)
     return config
