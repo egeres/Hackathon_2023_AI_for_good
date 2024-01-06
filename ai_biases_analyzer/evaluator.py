@@ -54,8 +54,8 @@ class Evaluator:
         for i, hex_prompt in enumerate(hex_prompts):
             if hex_prompt in available_prompts:
                 paths = [
-                    os.path.join(img_path, hex_prompt, p)
-                    for p in os.listdir(os.path.join(img_path, hex_prompt))
+                    img_path / hex_prompt / p
+                    for p in os.listdir(img_path / hex_prompt)
                     if p.endswith(".png")
                 ]
                 res.append(self.execute(prompts[i], paths))
@@ -100,10 +100,7 @@ class Evaluator:
         return result
 
     def _get_subfeatures(self, features: dict) -> list:
-        subfeatures = []
-        for f in self.features:
-            subfeatures.append(list(features[f].keys()))
-        return subfeatures
+        return [list(features[f].keys()) for f in self.features]
 
     def _compute_probabilities(self, df_features: pd.DataFrame) -> dict:
         probabilities = {}

@@ -67,13 +67,12 @@ def plot_chart_genderrace(input_data: list[dict]) -> go.Figure:
             mode="markers",
             text=hover_text,
             hoverinfo="text",
-            # Set marker size and color
-            marker=dict(
-                color=colors,
-                size=18,
-                # line=dict(width=2, color="rgba(0, 0, 0, 0.5)"),
-                opacity=0.3,
-            ),
+            marker={
+                "color": colors,
+                "size": 18,
+                "opacity": 0.3,
+                # "line": {"width": 2, "color": "rgba(0, 0, 0, 0.5)"}
+            },
         ),
     )
 
@@ -81,7 +80,11 @@ def plot_chart_genderrace(input_data: list[dict]) -> go.Figure:
         title="Gender Probability Analysis",
         xaxis_title="Probability of Gender Being Male",
         yaxis_title="",
-        yaxis=dict(showgrid=False, showticklabels=False, zeroline=False),
+        yaxis={
+            "showgrid": False,
+            "showticklabels": False,
+            "zeroline": False,
+        },
     )
 
     return fig

@@ -26,7 +26,7 @@ def hex_hash(s: str) -> str:
 
 class Model(ABC):
     url: str
-    default_pics_dir: Path = Path(__file__).parent / "generated_images"
+    default_pics_dir: Path = Path(__file__).parent.parent / "generated_images"
 
     # REFACTOR: use config.get("EVALUATOR", "image_folder") instead, but make it a more
     # generic name, not something specific of EVALUATOR
