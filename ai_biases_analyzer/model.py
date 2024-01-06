@@ -43,9 +43,9 @@ class Model(ABC):
     ) -> list[Path]:
         """Generates various images from a prompt.
 
-        # DOCS: Add docs
         cache: If True, the images will be cached based on a hash of the prompt.
         """
+        # DOCS: Add docs
 
         # TODO: Add arg "batch_size": 1,
 

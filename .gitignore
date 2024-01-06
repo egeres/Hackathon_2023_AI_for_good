@@ -10,3 +10,5 @@ __pycache__/
 model_runs.log
 
 .cache_features/
+
+generated_images/

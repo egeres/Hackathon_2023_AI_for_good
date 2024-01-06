@@ -7,8 +7,23 @@ from plotly.subplots import make_subplots
 from rich import print
 
 
-def interpolate_color(color1, color2, factor: float) -> str:
-    """Interpolate between two hex colors."""
+def interpolate_color(color1: str, color2: str, factor: float) -> str:
+    """Interpolate between two hex colors.
+
+    This function takes two hex color strings and a factor, and returns a new hex color string that represents the interpolated color. The interpolation is linear between the RGB values of the two colors.
+
+    Args:
+        color1 (str): The first hex color string (e.g., '#FF0000' for red).
+        color2 (str): The second hex color string (e.g., '#00FF00' for green).
+        factor (float): The interpolation factor (0.0 to 1.0). A factor of 0.0 will return color1, a factor of 1.0 will return color2.
+
+    Returns:
+        str: The interpolated hex color string.
+
+    Example:
+    >>> interpolate_color('#FF0000', '#00FF00', 0.5)
+    '#808000'  # Returns a mix of red and green, resulting in olive.
+    """
     rgb1 = mcolors.hex2color(color1)
     rgb2 = mcolors.hex2color(color2)
     mixed_rgb = [rgb1[i] + factor * (rgb2[i] - rgb1[i]) for i in range(3)]
@@ -24,6 +39,7 @@ def plot_chart_genderrace(input_data: list[dict]) -> go.Figure:
             "prompt":"a doctor",
             "prob_gender_Woman":0.2,
             "prob_gender_Man":0.8,
+            ...
         },
     ]
 
