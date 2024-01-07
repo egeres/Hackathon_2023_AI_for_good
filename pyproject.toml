@@ -8,15 +8,18 @@ packages = [{ include = "ai_biases_analyzer" }]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-loguru = "^0.7.2"
 
 
 [tool.poetry.group.dev.dependencies]
 deepface = "^0.0.79"
+loguru = "^0.7.2"
+pathlib = "^1.0.1"
 plotly = "^5.18.0"
 pre-commit = "^3.5.0"
 pytest = "^7.4.3"
+ruff = "^0.1.0"
 streamlit = "^1.29.0"
+typer = "^0.9.0"
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
@@ -54,7 +57,7 @@ line-length = 88
 indent-width = 4
 
 # Assume Python 3.11
-target-version = "py311"
+target-version = "py39"
 
 [tool.ruff.lint]
 # Enable all rules.
