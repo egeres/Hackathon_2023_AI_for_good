@@ -1,4 +1,3 @@
-# from biasdetector import Evaluator
 from ai_biases_analyzer.evaluator import Evaluator
 from ai_biases_analyzer.model import Model_SD_0
 from ai_biases_analyzer.plot import plot_chart_genderrace

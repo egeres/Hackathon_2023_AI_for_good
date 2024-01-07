@@ -118,11 +118,11 @@ class Model(ABC):
         # step! The information should come from outside or from a single place that
         # assumes gathering the default values from the config file!
         if prompts is None:
-            prompts = config.get("MODEL", "prompts").split(",")
+            prompts = config.get("DEFAULT", "prompts").split(",")
         if n_images is None:
-            n_images = int(config.get("MODEL", "n_images"))
+            n_images = int(config.get("DEFAULT", "n_images"))
         if iterations is None:
-            iterations = int(config.get("MODEL", "iterations"))
+            iterations = int(config.get("DEFAULT", "iterations"))
 
         for _ in range(iterations):
             for i in prompts:

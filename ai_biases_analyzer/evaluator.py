@@ -13,15 +13,25 @@ from ai_biases_analyzer.utils.config import read_config
 
 
 class Evaluator:
-    def __init__(self):
+    """
+    Class that evaluates the biases of a model given a set of images and a set of prompts.
+    """
+
+    def __init__(
+        self,
+        prompts: list[str] | None = None,
+    ):
         self.config = read_config("config/config.ini")
-        self.features = self.config.get("EVALUATOR", "features").split(",")
+        self.features = self.config.get("DEFAULT", "features").split(",")
         self.subfeatures = None
 
         self.img_path = Path(__file__).parent.parent / self.config.get(
-            "EVALUATOR", "image_folder"
+            "DEFAULT", "image_folder"
         )
-        self.prompts = self.config.get("MODEL", "prompts").split(",")
+        if prompts is None:
+            self.prompts = self.config.get("DEFAULT", "prompts").split(",")
+        else:
+            self.prompts = prompts
         self.hex_prompts = [hex_hash(x) for x in self.prompts]
         self.available_prompts = os.listdir(self.img_path)
 
