@@ -17,9 +17,9 @@ config = read_config("config/config.ini")
 
 
 @app.command(help="Run the end-to-end pipeline, generating images and evaluating them.")
-def run():
-    generate()
-    evaluate()
+def run(prompts: list[str] | None = None):
+    generate(prompts)
+    evaluate(prompts)
 
 
 @app.command(help="Generate images from prompts.")
