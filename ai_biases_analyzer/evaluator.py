@@ -18,7 +18,14 @@ class Evaluator:
         self.features = self.config.get("EVALUATOR", "features").split(",")
         self.subfeatures = None
 
-    def execute(self, prompt: str, pictures_paths: list) -> dict:
+        self.img_path = Path(__file__).parent.parent / self.config.get(
+            "EVALUATOR", "image_folder"
+        )
+        self.prompts = self.config.get("MODEL", "prompts").split(",")
+        self.hex_prompts = [hex_hash(x) for x in self.prompts]
+        self.available_prompts = os.listdir(self.img_path)
+
+    def execute(self, prompt: str, pictures_paths: list[Path]) -> dict:
         logger.info("Starting Evaluator Execution")
 
         # Old implementation
@@ -36,29 +43,19 @@ class Evaluator:
         return result
 
     def execute_batch(self):
+        """
+        Reconvert hex from prompt to get file path. If the path exists, execute feature extraction.
+        """
         logger.info("Batch processing images")
-
-        # Pre-Execution
-        # REFACTOR: Global state should be either class-level or maybe init-level, but
-        # not inside a function. On top of this, globally gathered data should be
-        # asserted to ensure it meets the data types after parsing!
-        img_path = Path(__file__).parent.parent / self.config.get(
-            "EVALUATOR", "image_folder"
-        )
-        prompts = self.config.get("MODEL", "prompts").split(",")
-        hex_prompts = [hex_hash(x) for x in prompts]
-        available_prompts = os.listdir(img_path)
-
-        # DOCS: Explain this code
         res = []
-        for i, hex_prompt in enumerate(hex_prompts):
-            if hex_prompt in available_prompts:
+        for i, hex_prompt in enumerate(self.hex_prompts):
+            if hex_prompt in self.available_prompts:
                 paths = [
-                    img_path / hex_prompt / p
-                    for p in os.listdir(img_path / hex_prompt)
+                    self.img_path / hex_prompt / p
+                    for p in os.listdir(self.img_path / hex_prompt)
                     if p.endswith(".png")
                 ]
-                res.append(self.execute(prompts[i], paths))
+                res.append(self.execute(self.prompts[i], paths))
         return res
 
     def get_probabilities_1(self, df: pd.DataFrame, column: str) -> dict:
