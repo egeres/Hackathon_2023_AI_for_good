@@ -7,19 +7,23 @@ readme = "README.md"
 packages = [{ include = "ai_biases_analyzer" }]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.9.7 || >3.9.7,<4.0"
+python = ">=3.9,<3.9.7 || >3.9.7,<3.12"
 cython = "^3.0.7"
+numpy = "^1.26.3"
+h5py = "^3.10.0"
+scipy = "^1.11.4"
+tensorflow = "2.14"
+deepface = "^0.0.81"
+streamlit = "^1.29.0"
+loguru = "^0.7.2"
+plotly = "^5.18.0"
+typer = "^0.9.0"
 
 [tool.poetry.group.dev.dependencies]
-deepface = "^0.0.79"
-loguru = "^0.7.2"
-pathlib = "^1.0.1"
-plotly = "^5.18.0"
-pre-commit = "^3.5.0"
 pytest = "^7.4.3"
-ruff = "^0.1.0"
-streamlit = "^1.29.0"
-typer = "^0.9.0"
+ruff = "^0.1.11"
+pre-commit = "^3.6.0"
+
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
