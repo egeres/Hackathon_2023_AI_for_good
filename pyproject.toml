@@ -49,7 +49,7 @@ exclude = [
     "dist",
     "node_modules",
     "site-packages",
-    "venv"
+    "venv",
 ]
 
 # Same as Black.
@@ -61,7 +61,23 @@ target-version = "py39"
 
 [tool.ruff.lint]
 # Enable all rules.
-select = ["UP", "I", "C4", "PT", "RET", "SIM", "PIE", "PTH", "FURB", "PERF", "RUF", "RSE", "EM", "FA", "B", "TRY"]
+select = [
+    "UP",
+    "I",
+    "C4",
+    "PT",
+    "RET",
+    "SIM",
+    "PIE",
+    "PTH",
+    "PERF",
+    "RUF",
+    "RSE",
+    "EM",
+    "FA",
+    "B",
+    "TRY",
+]
 ignore = []
 
 # Allow fix for all enabled rules (when `--fix`) is provided.

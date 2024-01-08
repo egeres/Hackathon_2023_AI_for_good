@@ -48,8 +48,3 @@ repos:
     hooks:
       - id: ruff
         types_or: [python, pyi, jupyter]
-        args:
-          [
-            "--select=UP,I,C4,PT,RET,SIM,PIE,PTH,FURB,PERF,RUF,RSE,EM,FA,B,TRY",
-            "--preview",
-          ]
