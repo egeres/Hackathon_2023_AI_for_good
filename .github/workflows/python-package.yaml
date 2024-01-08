@@ -24,17 +24,19 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install poetry
-          poetry install
+          python -m pip install --upgrade poetry
+          poetry cache clear --all pypi
+          poetry lock
+          poetry install --no-root
 
-      - name: Check with black
+      - name: Black
         run: |
           poetry run black --check .
 
-      - name: Test with pytest
+      - name: Pytest
         run: |
-          # I'm not sure about disabling the tests, but it's in for now!
           poetry run pytest --disable-pytest-warnings
 
-    # - name: Check with ruff
-    #       run: |
+      - name: Ruff
+        run: |
+          poetry run ruff .
