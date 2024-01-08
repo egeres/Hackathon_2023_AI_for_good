@@ -9,7 +9,9 @@ jobs:
     strategy:
       fail-fast: false # if one job fails, the other jobs will not be cancelled
       matrix:
-        operating-system: [ubuntu-latest, windows-latest, macos-latest]
+        # operating-system: [ubuntu-latest, windows-latest, macos-latest]
+        # Disabled because issue with: https://github.com/egeres/Hackathon_2023_AI_for_good/actions/runs/7453818511/job/20279961460
+        operating-system: [ubuntu-latest, macos-latest]
         python-version: ["3.9", "3.10", "3.11"]
 
     steps:
