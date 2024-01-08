@@ -8,7 +8,7 @@ packages = [{ include = "ai_biases_analyzer" }]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.9.7 || >3.9.7,<4.0"
-
+cython = "^3.0.7"
 
 [tool.poetry.group.dev.dependencies]
 deepface = "^0.0.79"
