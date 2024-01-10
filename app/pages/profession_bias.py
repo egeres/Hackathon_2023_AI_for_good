@@ -12,4 +12,7 @@ evaluator = Evaluator()
 eval = evaluator.execute_batch()
 
 
-st.plotly_chart(plot_chart_genderrace(eval), use_container_width=True)
+st.plotly_chart(
+    plot_chart_genderrace(eval),
+    use_container_width=True,
+)

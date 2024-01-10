@@ -59,7 +59,6 @@ Executes the evaluation pipeline over the generated images on specified prompts.
 ┌─ Options ───────────────────────────────────────────────────────────────────┐
 │ --help          Show this message and exit.                                 │
 └─────────────────────────────────────────────────────────────────────────────┘
-
 ```
 
 

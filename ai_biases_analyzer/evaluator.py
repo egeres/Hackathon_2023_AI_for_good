@@ -35,7 +35,9 @@ class Evaluator:
         self.hex_prompts = [hex_hash(x) for x in self.prompts]
         self.available_prompts = os.listdir(self.img_path)
 
-    def execute(self, prompt: str, pictures_paths: list[Path]) -> dict:
+        # TODO_2: Maybe add a warning in case this lacks hex_prompts in available_prompts
+
+    def execute(self, prompt: str, pictures_paths: list[Path]) -> dict | None:
         logger.info("Starting Evaluator Execution")
 
         # Old implementation

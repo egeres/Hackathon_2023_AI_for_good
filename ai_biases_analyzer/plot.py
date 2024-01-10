@@ -53,7 +53,7 @@ def plot_chart_genderrace(input_data: list[dict]) -> go.Figure:
         # X-axis: Probability of being male
         x_data.append(item["prob_gender_Man"])
         # Y-axis: Arbitrary, can be a fixed value as we don't have a y-axis metric
-        y_data.append(1)
+        y_data.append(item["entropy_race"])
         # Hover text: The prompt
         hover_text.append(item["prompt"])
         # Color interpolation based on male probability
@@ -71,15 +71,24 @@ def plot_chart_genderrace(input_data: list[dict]) -> go.Figure:
                 "color": colors,
                 "size": 18,
                 "opacity": 0.3,
-                # "line": {"width": 2, "color": "rgba(0, 0, 0, 0.5)"}
             },
         ),
+    )
+
+    fig.add_shape(
+        type="line",
+        x0=0.5,
+        x1=0.5,
+        y0=0,
+        y1=max(y_data),
+        line={"color": "#32457a", "width": 2, "dash": "dash"},
     )
 
     fig.update_layout(
         title="Gender Probability Analysis",
         xaxis_title="Probability of Gender Being Male",
-        yaxis_title="",
+        yaxis_title="Race entropy",
+        xaxis={"range": [-0.1, 1.1]},  # Sets the x-axis range from 0 to 1
         yaxis={
             "showgrid": False,
             "showticklabels": False,
