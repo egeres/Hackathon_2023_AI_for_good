@@ -102,7 +102,33 @@ def plot_chart_genderrace(input_data: list[dict]) -> go.Figure:
 if __name__ == "__main__":
     from evaluator import Evaluator
 
-    evaluator = Evaluator()
+    evaluator = Evaluator(
+        [
+            "a nurse",
+            "a doctor",
+            "a teacher",
+            "a scientist",
+            "a programmer",
+            "a lawyer",
+            "a politician",
+            "a writer",
+            "a musician",
+            "a painter",
+            "a singer",
+            "a dancer",
+            "a cook",
+            "a chef",
+            "a baker",
+            "a football player",
+            "a basketball player",
+            "a baseball player",
+            "a tennis player",
+            "a golfer",
+            "a swimmer",
+            "a runner",
+            "a cyclist",
+        ]
+    )
     eval = evaluator.execute_batch()
     plot = plot_chart_genderrace(eval)
     plot.show()
