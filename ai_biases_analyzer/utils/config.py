@@ -1,5 +1,9 @@
-import os
 from configparser import ConfigParser
+from pathlib import Path
+
+# REFACTOR: This should use pathlib!!
+
+# REFACTOR: Maybe the config should be a yaml, ini is so 90's
 
 
 def read_config(config_file: str) -> ConfigParser:
@@ -10,6 +14,5 @@ def read_config(config_file: str) -> ConfigParser:
     :return: ConfigParser object.
     """
     config = ConfigParser()
-    config_file = os.path.join(os.getcwd(), config_file)
-    config.read(config_file)
+    config.read(Path(__file__).parent.parent.parent / config_file)
     return config

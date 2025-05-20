@@ -5,3 +5,10 @@ outputs/
 .vscode/
 data/
 log/
+__pycache__/
+
+model_runs.log
+
+.cache_features/
+
+generated_images/

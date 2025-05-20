@@ -1,0 +1,44 @@
+name: Python package
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false # if one job fails, the other jobs will not be cancelled
+      matrix:
+        # operating-system: [ubuntu-latest, windows-latest, macos-latest]
+        # Disabled because issue with: https://github.com/egeres/Hackathon_2023_AI_for_good/actions/runs/7453818511/job/20279961460
+        operating-system: [ubuntu-latest, macos-latest]
+        python-version: ["3.9", "3.10", "3.11"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade poetry
+          poetry cache clear --all pypi
+          poetry lock
+          poetry install --no-root
+
+      - name: Black
+        run: |
+          poetry run black --check .
+
+      - name: Pytest
+        run: |
+          poetry run pytest --disable-pytest-warnings
+
+      - name: Ruff
+        run: |
+          poetry run ruff .
